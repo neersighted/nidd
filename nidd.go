@@ -54,7 +54,7 @@ func main() {
 		go func(conn net.Conn) {
 			var (
 				response chan string
-				data    string
+				data     string
 			)
 
 			// Always close the client connection.

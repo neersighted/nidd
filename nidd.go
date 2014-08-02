@@ -29,19 +29,24 @@ func main() {
 		err error
 	)
 
-	// Set the ident response to the first argument.
-	if len(os.Args) > 1 {
-		ident = os.Args[1]
-	}
-
 	// Set up the listener.
 	lsnr, err = net.Listen("tcp", fmt.Sprintf(":%d", Port))
 	if err != nil {
 		log.Fatalf("Error binding to socket: %s", err)
 	}
 
+	// Print out some helpful information.
 	log.Printf("%s %s", Name, Version)
 	log.Printf("Listening on port %d.", Port)
+
+	// Set the ident response to the first argument.
+	if len(os.Args) > 1 {
+		ident = os.Args[1]
+
+		log.Printf("Responding with '%s'.", ident)
+	} else {
+		log.Print("No response specified.")
+	}
 
 	for {
 		// Wait for client connections.
@@ -83,7 +88,7 @@ func main() {
 				rdr = bufio.NewReader(conn)
 
 				// Compile the regexp.
-				regx = regexp.MustCompile("^[1-9]{1,5}, [1-9]{1,5}$")
+				regx = regexp.MustCompile("^[0-9]{1,5} ?, ?[0-9]{1,5}$")
 
 				// Read data from the client.
 				data, err = rdr.ReadString('\n')

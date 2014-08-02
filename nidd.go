@@ -133,7 +133,7 @@ func main() {
 					return
 				}
 
-				// Write the data.
+				// Write the response.
 				wrt.Flush()
 			case <-time.After(time.Second * Timeout):
 				// Let us know we timed out.
